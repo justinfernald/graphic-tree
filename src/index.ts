@@ -10,6 +10,8 @@ import {
 } from "./utils/graphics";
 import Renderer from "./renderer/renderer";
 import Cube from "./shapes/cube";
+import Cylinder from "./shapes/cylinder";
+import Empty from "./shapes/empty";
 import Camera from "./renderer/camera";
 import { add, mult, scale } from "./lib/webgl/MV";
 import { clamp, DEG_TO_RAD } from "./utils/math";
@@ -172,7 +174,7 @@ const main = () => {
                     break;
             }
         }
-        const tree = new Cube(0, 0, 0).setChildren(...branches);
+        const tree = new Empty(0, 0, 0).setChildren(...branches);
         return tree;
     };
 
@@ -182,7 +184,11 @@ const main = () => {
         location: Vec3 = [0, 0, 0]
     ) => {
         const branchObject: Cube = new Cube(...location)
-            .setChildren(new Cube(0, length / 2, 0).setScale(0.1, length, 0.1))
+            .setChildren(
+                Cylinder.singleRadius(0.15, length, 150)
+                    .setPosition(0, length / 2, 0)
+                    .setRotation(90, 0, 0)
+            )
             .setRotation(...rotation);
         return branchObject;
     };
@@ -200,30 +206,21 @@ const main = () => {
     };
 
     const tree1 = genBranches(treeGen(grammar3), turtle, n, angle);
-    const tree2 = genBranches(treeGen(grammar3), turtle2, n, angle);
+    const tree2 = genBranches(treeGen(grammar4), turtle2, n, angle);
 
     console.log({ tree1, tree2 });
 
-    new Cube(0, 0, 0)
+    new Empty(0, 0, 0)
         .setChildren(
-            new Cube(0, 0, 0)
+            new Empty(0, 0, 0)
                 .setChildren(tree1)
-                .setRotation(0, -90, 0)
-                .setScale(0.2, 0.2, 0.2),
-            new Cube(0, 0, 0)
+                .setRotation(0, 90, 0)
+                .setScale(0.5, 0.5, 0.5),
+            new Empty(0, 0, 0)
                 .setChildren(tree2)
-                .setRotation(0, -90, 0)
-                .setScale(0.2, 0.2, 0.2)
-                .setPosition(0, 0, 1)
-            // new Cube(0, 0, 0)
-            //     .setChildren(new Cube())
-            //     .setRotation(0, -45, 0)
-            //     .setScale(0.2, 0.2, 0.2),
-            // new Cube(0, 0, 0)
-            //     .setChildren(new Cube())
-            //     .setRotation(0, -45, 0)
-            //     .setScale(0.4, 0.4, 0.4)
-            //     .setPosition(0, 0, 1)
+                .setRotation(0, 0, 0)
+                .setScale(1, 1, 1)
+                .setPosition(0, 0, 111)
         )
         .build(renderer);
 
