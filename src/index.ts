@@ -194,7 +194,11 @@ const main = () => {
     ) => {
         const branchObject: Empty = new Empty(...location)
             .setChildren(
-                Cylinder.singleRadius(0.15, length, 10)
+                Cylinder.singleRadius(
+                    0.15 * Math.pow(length / 5, 3),
+                    length,
+                    10
+                )
                     .setPosition(0, length / 2, 0)
                     .setRotation(90, 0, 0),
                 new Cube(0, 0, 0)
