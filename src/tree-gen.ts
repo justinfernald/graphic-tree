@@ -77,6 +77,66 @@ export let grammar5: Grammar = {
     starting: "X",
 };
 
+export let grammar6: Grammar = {
+    rules: {
+        F: [
+            {
+                // F[+F]F[-F]F
+                // 5
+                part: r`${"F"}[+${"F"}]${"F"}[-F]${"F"}`,
+                weight: (t) => +(t < 5),
+            },
+            { part: r`F`, weight: (t) => +(t >= 5) },
+        ],
+    },
+    starting: "F",
+};
+
+export let grammar7: Grammar = {
+    rules: {
+        F: [
+            {
+                // FF-[-F+F+F]+[+F-F-F]
+                // 4
+                part: r`${"F"}${"F"}-[-${"F"}+${"F"}+${"F"}]+[+${"F"}-${"F"}-${"F"}]`,
+                weight: (t) => +(t < 4),
+            },
+            { part: r`F`, weight: (t) => +(t >= 4) },
+        ],
+    },
+    starting: "F",
+};
+
+export let grammar8: Grammar = {
+    rules: {
+        F: [
+            {
+                // F[&+F]F[-/F][-/F][&F]
+                // 3
+                part: r`${"F"}[&+${"F"}]${"F"}[-/${"F"}][-/${"F"}][&${"F"}]`,
+                weight: (t) => +(t < 3),
+            },
+            { part: r`F`, weight: (t) => +(t >= 3) },
+        ],
+    },
+    starting: "F",
+};
+
+export let grammar9: Grammar = {
+    rules: {
+        F: [
+            {
+                // F[-&\F][\++&F]||F[--&/F][+&F]
+                // 3
+                part: r`${"F"}[-&\${"F"}][\++&${"F"}]||F[--&/${"F"}][+&${"F"}]`,
+                weight: (t) => +(t < 3),
+            },
+            { part: r`F`, weight: (t) => +(t >= 3) },
+        ],
+    },
+    starting: "F",
+};
+
 export default (grammar: Grammar) => randomGenerate(grammar).join("");
 
 // export default randomGenerate(grammar5).join("");

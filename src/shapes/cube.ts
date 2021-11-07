@@ -54,7 +54,8 @@ class Cube extends Shape {
             for (const index of indices) {
                 this._points.push(cubeVertices[index]);
                 this._normals.push(pointNormal);
-                this._colors.push(this.colors[i]);
+                let colorIndex = Math.floor(Math.random() * (5 - 0 + 1) + 0);
+                this._colors.push(this.colors[colorIndex]);
             }
             i++;
         }

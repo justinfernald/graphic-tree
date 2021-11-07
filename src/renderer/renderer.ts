@@ -56,7 +56,7 @@ class Renderer {
         const normalMatrices: Mat4[] = [normalMatrix];
         let lastLevel = 0;
         for (let { shape, level } of this.shapesData) {
-            if (level < lastLevel) {
+            for (let i = level; i < lastLevel; i++) {
                 matrices.pop();
                 normalMatrices.pop();
             }

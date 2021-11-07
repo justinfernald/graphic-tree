@@ -15,9 +15,17 @@ import Empty from "./shapes/empty";
 import Camera from "./renderer/camera";
 import { add, mult, scale } from "./lib/webgl/MV";
 import { clamp, DEG_TO_RAD } from "./utils/math";
-import treeGen, { grammar1, grammar2, grammar3, grammar4 } from "./tree-gen";
+import treeGen, {
+    grammar3,
+    grammar5,
+    grammar6,
+    grammar7,
+    grammar8,
+    grammar9,
+} from "./tree-gen";
 // import Empty from "./shapes/empty";
 import Shape from "./shapes/shape";
+import Sphere from "./shapes/sphere";
 
 const renderer = new Renderer();
 let cursorLock = false;
@@ -122,6 +130,7 @@ const main = () => {
                         turtle.location,
                         scale(length, getDirection(turtle.rotation))
                     ) as Vec3;
+                    length = length * 0.995;
                     break;
                 // f: Move forward a step of length len without drawing
                 case "f":
@@ -183,18 +192,21 @@ const main = () => {
         rotation: Vec3,
         location: Vec3 = [0, 0, 0]
     ) => {
-        const branchObject: Cube = new Cube(...location)
+        const branchObject: Empty = new Empty(...location)
             .setChildren(
-                Cylinder.singleRadius(0.15, length, 150)
+                Cylinder.singleRadius(0.15, length, 10)
                     .setPosition(0, length / 2, 0)
-                    .setRotation(90, 0, 0)
+                    .setRotation(90, 0, 0),
+                new Cube(0, 0, 0)
+                    .setScale(0.1, 2, 1)
+                    .setPosition(0, length, 0)
+                    .setRotation(45, 45, 0)
             )
             .setRotation(...rotation);
         return branchObject;
     };
 
     const n = 5;
-    const angle = 22.5;
 
     const turtle = {
         location: [0, 0, 0] as Vec3,
@@ -205,26 +217,40 @@ const main = () => {
         rotation: [0, 0, 0] as Vec3,
     };
 
-    const tree1 = genBranches(treeGen(grammar3), turtle, n, angle);
-    const tree2 = genBranches(treeGen(grammar4), turtle2, n, angle);
-
-    console.log({ tree1, tree2 });
+    const tree1 = genBranches(treeGen(grammar6), turtle, n, 25.7);
+    const tree2 = genBranches(treeGen(grammar7), turtle2, n, 22.5);
+    const tree3 = genBranches(treeGen(grammar8), turtle2, n, 28);
+    const tree4 = genBranches(treeGen(grammar9), turtle2, n, 22.5);
+    const tree5 = genBranches(treeGen(grammar3), turtle2, n, 28);
+    const tree6 = genBranches(treeGen(grammar5), turtle2, n, 22.5);
 
     new Empty(0, 0, 0)
         .setChildren(
-            new Empty(0, 0, 0)
-                .setChildren(tree1)
-                .setRotation(0, 90, 0)
-                .setScale(0.5, 0.5, 0.5),
+            new Empty(0, 0, 0).setChildren(tree1).setRotation(0, 90, 0),
             new Empty(0, 0, 0)
                 .setChildren(tree2)
-                .setRotation(0, 0, 0)
+                .setRotation(0, 90, 0)
+                .setPosition(-25, 0, 0),
+            new Empty(0, 0, 0)
+                .setChildren(tree3)
+                .setRotation(0, 90, 0)
+                .setPosition(-50, 0, 0),
+            new Empty(0, 0, 0)
+                .setChildren(tree4)
+                .setRotation(0, 90, 0)
                 .setScale(1, 1, 1)
-                .setPosition(0, 0, 111)
+                .setPosition(-75, 0, 0),
+            new Empty(0, 0, 0)
+                .setChildren(tree5)
+                .setRotation(0, 90, 0)
+                .setPosition(-100, 0, 0),
+            new Empty(0, 0, 0)
+                .setChildren(tree6)
+                .setRotation(0, 90, 0)
+                .setScale(1, 1, 1)
+                .setPosition(-125, 0, 0)
         )
         .build(renderer);
-
-    // console.log(treeGen);
 
     renderer.setup(gl, program, camera);
 
