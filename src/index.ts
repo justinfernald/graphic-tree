@@ -192,6 +192,7 @@ const main = () => {
         rotation: Vec3,
         location: Vec3 = [0, 0, 0]
     ) => {
+        const rand = Math.random() * 10;
         const branchObject: Empty = new Empty(...location)
             .setChildren(
                 Cylinder.singleRadius(
@@ -205,6 +206,13 @@ const main = () => {
                     .setScale(0.1, 2, 1)
                     .setPosition(0, length, 0)
                     .setRotation(45, 45, 0)
+                    .setPostRender(({ frameCount }, that) =>
+                        that.setRotation(
+                            45 + (20 + rand) * Math.sin(frameCount + rand),
+                            45 + (20 + rand) * Math.sin(frameCount + rand),
+                            0
+                        )
+                    )
             )
             .setRotation(...rotation);
         return branchObject;

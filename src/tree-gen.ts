@@ -35,9 +35,9 @@ export let grammar3: Grammar = {
         F: [
             {
                 part: r`${"F"}[+${"F"}]${"F"}[-${"F"}][${"F"}]`,
-                weight: (t) => (t < 3 ? 1 : 0),
+                weight: (t) => (t < 2 ? 1 : 0),
             },
-            { part: r`F`, weight: (t) => (t < 3 ? 0 : 1) },
+            { part: r`F`, weight: (t) => (t < 2 ? 0 : 1) },
         ],
     },
     starting: "F",
@@ -48,13 +48,13 @@ export let grammar4: Grammar = {
         X: [
             {
                 part: r`${"F"}[+${"X"}][-${"X"}]${"F"}${"X"}`,
-                weight: (t) => (t < 5 ? 1 : 0),
+                weight: (t) => (t < 3 ? 1 : 0),
             },
-            { part: r``, weight: (t) => (t < 5 ? 0 : 1) },
+            { part: r``, weight: (t) => (t < 3 ? 0 : 1) },
         ],
         F: [
-            { part: r`${"F"}${"F"}`, weight: (t) => (t < 5 ? 1 : 0) },
-            { part: r`F`, weight: (t) => (t < 5 ? 0 : 1) },
+            { part: r`${"F"}${"F"}`, weight: (t) => (t < 3 ? 1 : 0) },
+            { part: r`F`, weight: (t) => (t < 3 ? 0 : 1) },
         ],
     },
     starting: "X",
@@ -65,13 +65,13 @@ export let grammar5: Grammar = {
         X: [
             {
                 part: r`${"F"}-[[${"X"}]+${"X"}]+${"F"}[+${"F"}${"X"}]-${"X"}`,
-                weight: (t) => (t < 4 ? 1 : 0),
+                weight: (t) => (t < 2 ? 1 : 0),
             },
-            { part: r``, weight: (t) => (t < 4 ? 0 : 1) },
+            { part: r``, weight: (t) => (t < 2 ? 0 : 1) },
         ],
         F: [
             { part: r`${"F"}${"F"}`, weight: (t) => (t < 3 ? 1 : 0) },
-            { part: r`F`, weight: (t) => (t < 4 ? 0 : 1) },
+            { part: r`F`, weight: (t) => (t < 3 ? 0 : 1) },
         ],
     },
     starting: "X",
@@ -84,9 +84,9 @@ export let grammar6: Grammar = {
                 // F[+F]F[-F]F
                 // 5
                 part: r`${"F"}[+${"F"}]${"F"}[-F]${"F"}`,
-                weight: (t) => +(t < 5),
+                weight: (t) => +(t < 3),
             },
-            { part: r`F`, weight: (t) => +(t >= 5) },
+            { part: r`F`, weight: (t) => +(t >= 3) },
         ],
     },
     starting: "F",
@@ -99,9 +99,9 @@ export let grammar7: Grammar = {
                 // FF-[-F+F+F]+[+F-F-F]
                 // 4
                 part: r`${"F"}${"F"}-[-${"F"}+${"F"}+${"F"}]+[+${"F"}-${"F"}-${"F"}]`,
-                weight: (t) => +(t < 4),
+                weight: (t) => +(t < 2),
             },
-            { part: r`F`, weight: (t) => +(t >= 4) },
+            { part: r`F`, weight: (t) => +(t >= 2) },
         ],
     },
     starting: "F",
